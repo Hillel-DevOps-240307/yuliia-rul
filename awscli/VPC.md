@@ -5,8 +5,8 @@ aws ec2 create-key-pair --key-name web-test-key --key-type ed25519 --key-format 
 
 # create ec-2
 
-# 1st create Public ec2 and create the mariadb on it:
-# Frontend-devops, default ami with ubuntu:
+## 1st create Public ec2 and create the mariadb on it:
+### Frontend-devops, default ami with ubuntu:
 
 aws ec2 run-instances \
     --image-id ami-023adaba598e661ac \
@@ -17,17 +17,17 @@ aws ec2 run-instances \
     --subnet-id subnet-060113e650ffd523a \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=FRONT},{Key=Environment,Value=DEV}]' 
 
-# mariiadb: 
+## mariiadb: 
 
 #!/bin/bash
 
-# Update package index
+### Update package index
 sudo apt-get update
-# Install MariaDB
+### Install MariaDB
 sudo apt-get install mariadb-server -y
-# Start MariaDB service
+### Start MariaDB service
 sudo systemctl start mariadb
-# Enable MariaDB to start on boot
+## Enable MariaDB to start on boot
 sudo systemctl enable mariadb
 # Set root password for MariaDB 
 sudo mysqladmin -u root password 'test123'
