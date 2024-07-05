@@ -100,3 +100,20 @@ Host db-host
   User ubuntu
   IdentityFile ~/.ssh/back-key.pem
   ProxyJump front
+
+# Login with the command:
+ssh db-host
+
+# responce from the web application 
+
+
+curl -I http://3.72.68.97:8000
+
+HTTP/1.1 200 OK
+Server: gunicorn
+Date: Fri, 05 Jul 2024 12:07:28 GMT
+Connection: close
+Content-Type: text/html; charset=utf-8
+Content-Length: 3369
+
+## script to run the 
