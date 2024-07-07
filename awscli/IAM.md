@@ -58,7 +58,7 @@ tag 'task' value 3
 		]
 	}
 	```
-	
+
 </details>
 <details>
 	<summary>Policy for s3 readonly access <b>db-read-s3-script</b></summary>
@@ -123,10 +123,6 @@ tag 'task' value 3
 <details>
 	<summary>Role <b>DbRole</b> for ec2</summary>
 
-	```markdown
-
-		# Role DbRole for EC2
-
 	```json
 	{
 		"Version": "2012-10-17",
@@ -141,16 +137,14 @@ tag 'task' value 3
 		]
 	}
 	```
+
 </details>
 
 <details>
 	<summary>DB init script</summary>
-
-	```markdown
-
-		# DB init script
 		
 	```bash
+
 	#!/bin/bash
 
 	# Update package index
@@ -188,15 +182,13 @@ tag 'task' value 3
 	sudo systemctl restart mariadb
 
 	echo "MariaDB installation, database creation, and user setup completed."
+
 	```
+
 </details>
 
 <details>
 	<summary>Script to update the environment variables <b>update-env-vars.sh</b> for ec2</summary>
-
-	```markdown
-
-		# script update-env-vars.sh
 
 	```bash
 
@@ -232,4 +224,5 @@ tag 'task' value 3
 	# Example: sudo systemctl restart my-app-service
 
 	```
+	
 </details>
