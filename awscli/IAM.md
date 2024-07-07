@@ -14,7 +14,9 @@ tag 'task' value 3
 ": "3"}]'
 - aws iam list-instance-profile-tags --instance-profile-name "DbRole"
 - aws iam list-instance-profile-tags --instance-profile-name "AppRole"
+
 	```markdown
+
 	# result
 
 	```json
@@ -30,7 +32,9 @@ tag 'task' value 3
 	```
 <details>
 	<summary>Policy <b>access-to-ssm-parameters</b></summary>
+
 	```markdown
+
 	# policy
 
 	```json
@@ -65,7 +69,9 @@ tag 'task' value 3
 </details>
 <details>
 	<summary>Policy for s3 readonly access <b>db-read-s3-script</b></summary>
+
 	```markdown
+
 		# Policy for DbRole
 
 	```json
@@ -79,10 +85,7 @@ tag 'task' value 3
 					"s3:DescribeJob",
 					"s3:List*"
 				],
-				"Resource": [
-					"arn:aws:s3:::hw-3-yuliia-rul/maria-db-ssm.sh",
-					"arn:aws:s3:::hw-3-yuliia-rul/update-env-vars.sh"
-				]
+				"Resource": "arn:aws:s3:::hw-3-yuliia-rul/maria-db-ssm.sh"
 			}
 		]
 	}
@@ -90,8 +93,10 @@ tag 'task' value 3
 </details>
 <details>
 	<summary>Policy for s3 readonly access <b>APP-read-s3-update-envs</b></summary>
+
 		```markdown
-		# Policy for DbRole
+
+		# Policy for AppRole
 
 	```json
 	{
@@ -110,7 +115,9 @@ tag 'task' value 3
 </details>
 <details>
 	<summary>Role <b>AppRole</b> for ec2</summary>
+
 	```markdown
+
 		# Role AppRole for EC2
 
 	```json
@@ -132,7 +139,9 @@ tag 'task' value 3
 
 <details>
 	<summary>Role <b>DbRole</b> for ec2</summary>
+
 	```markdown
+
 		# Role DbRole for EC2
 
 	```json
@@ -153,8 +162,11 @@ tag 'task' value 3
 
 <details>
 	<summary>DB init script</summary>
+
 	```markdown
 
+		# DB init script
+		
 	```bash
 	#!/bin/bash
 
@@ -198,11 +210,13 @@ tag 'task' value 3
 
 <details>
 	<summary>Script to update the environment variables <b>update-env-vars.sh</b> for ec2</summary>
+
 	```markdown
+
 		# script update-env-vars.sh
 
 	```bash
-	
+
 	#!/bin/bash
 
 	# Get parameters from AWS Systems Manager Parameter Store
