@@ -170,10 +170,10 @@ tag 'task' value 3
 	sudo mysql -u root -p"${MYSQL_PASS}" -e "CREATE DATABASE hillelDB;"
 
 	# Create a new user
-	sudo mysql -u root -p"${MYSQL_PASS}" -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASS}';"
+	sudo mysql -u root -p"${MYSQL_PASS}" -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASS}';"
 
 	# Grant privileges to the new user for the new database
-	sudo mysql -u root -p"${MYSQL_PASS}" -e "GRANT ALL PRIVILEGES ON hillelDB.* TO '${MYSQL_USER}'@'localhost';"
+	sudo mysql -u root -p"${MYSQL_PASS}" -e "GRANT ALL PRIVILEGES ON hillelDB.* TO '${MYSQL_USER}'@'%';"
 
 	# Flush privileges
 	sudo mysql -u root -p"${MYSQL_PASS}" -e "FLUSH PRIVILEGES;"
@@ -197,8 +197,9 @@ tag 'task' value 3
 	# Get parameters from AWS Systems Manager Parameter Store
 	MYSQL_USER=$(aws ssm get-parameter --name "/demo/db/MYSQL_USER" --query "Parameter.Value" --output text --with-decryption)
 	MYSQL_PASS=$(aws ssm get-parameter --name "/demo/db/MYSQL_PASS" --query "Parameter.Value" --output text --with-decryption)
+	MYSQL_DB=$(aws ssm get-parameter --name "/demo/db/MYSQL_DB" --query "Parameter.Value" --output text --with-decryption)
 	EXT_PORT=$(aws ssm get-parameter --name "/demo/app/ext_port" --query "Parameter.Value" --output text --with-decryption)
-	PRIV_IP=$(aws ssm get-parameter --name "/demo/db/priv_ip" --query "Parameter.Value" --output text --with-decryption)
+	MYSQL_HOST=$(aws ssm get-parameter --name "/demo/db/MYSQL_HOST" --query "Parameter.Value" --output text --with-decryption)
 
 	# Update environment variables in /etc/environment
 	echo "Updating environment variables in /etc/environment"
@@ -209,19 +210,24 @@ tag 'task' value 3
 	# Remove existing variables if they exist
 	sudo sed -i '/^MYSQL_USER=/d' /etc/environment
 	sudo sed -i '/^MYSQL_PASS=/d' /etc/environment
+	sudo sed -i '/^MYSQL_DB=/d' /etc/environment
 	sudo sed -i '/^EXT_PORT=/d' /etc/environment
-	sudo sed -i '/^PRIV_IP=/d' /etc/environment
+	sudo sed -i '/^MYSQL_HOST=/d' /etc/environment
 
 	# Add new variables
 	echo "MYSQL_USER=${MYSQL_USER}" | sudo tee -a /etc/environment
 	echo "MYSQL_PASS=${MYSQL_PASS}" | sudo tee -a /etc/environment
+	echo "MYSQL_DB=${MYSQL_DB}" | sudo tee -a /etc/environment
 	echo "EXT_PORT=${EXT_PORT}" | sudo tee -a /etc/environment
-	echo "PRIV_IP=${PRIV_IP}" | sudo tee -a /etc/environment
+	echo "MYSQL_HOST=${MYSQL_HOST}" | sudo tee -a /etc/environment
 
 	# Source the updated environment file to apply changes immediately
 	source /etc/environment
 
 	echo "Environment variables updated successfully."
+
+	# Optional: Restart any services that rely on these environment variables
+	# Example: sudo systemctl restart my-app-service
 
 	```
 
