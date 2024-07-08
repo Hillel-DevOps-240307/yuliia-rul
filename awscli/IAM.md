@@ -198,6 +198,7 @@ tag 'task' value 3
 	MYSQL_USER=$(aws ssm get-parameter --name "/demo/db/MYSQL_USER" --query "Parameter.Value" --output text --with-decryption)
 	MYSQL_PASS=$(aws ssm get-parameter --name "/demo/db/MYSQL_PASS" --query "Parameter.Value" --output text --with-decryption)
 	EXT_PORT=$(aws ssm get-parameter --name "/demo/app/ext_port" --query "Parameter.Value" --output text --with-decryption)
+	PRIV_IP=$(aws ssm get-parameter --name "/demo/db/priv_ip" --query "Parameter.Value" --output text --with-decryption)
 
 	# Update environment variables in /etc/environment
 	echo "Updating environment variables in /etc/environment"
@@ -209,20 +210,19 @@ tag 'task' value 3
 	sudo sed -i '/^MYSQL_USER=/d' /etc/environment
 	sudo sed -i '/^MYSQL_PASS=/d' /etc/environment
 	sudo sed -i '/^EXT_PORT=/d' /etc/environment
+	sudo sed -i '/^PRIV_IP=/d' /etc/environment
 
 	# Add new variables
 	echo "MYSQL_USER=${MYSQL_USER}" | sudo tee -a /etc/environment
 	echo "MYSQL_PASS=${MYSQL_PASS}" | sudo tee -a /etc/environment
 	echo "EXT_PORT=${EXT_PORT}" | sudo tee -a /etc/environment
+	echo "PRIV_IP=${PRIV_IP}" | sudo tee -a /etc/environment
 
 	# Source the updated environment file to apply changes immediately
 	source /etc/environment
 
 	echo "Environment variables updated successfully."
 
-	# Optional: Restart any services that rely on these environment variables
-	# Example: sudo systemctl restart my-app-service
-
 	```
-	
+
 </details>
