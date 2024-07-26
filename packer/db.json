@@ -1,0 +1,32 @@
+{
+	"variables": {
+	  "region": "",
+	  "base_ami": "",
+	  "instance_size": ""
+	},
+	"builders": [
+	  {
+		"type": "amazon-ebs",
+		"region": "{{user `region`}}",
+		"source_ami": "{{user `base_ami`}}",
+		"instance_type": "{{user `instance_size`}}",
+		"ami_name": "db-ami-{{timestamp}}",
+		"ssh_username": "ubuntu",
+		"ssh_timeout": "20m",
+		"tags": {
+		  "Project": "Devops",
+		  "ami_type": "db",
+		  "OS": "ubuntu_2204",
+		  "BuiltBy": "Packer"
+		}
+	  }
+	],
+	"provisioners": [
+	  {
+		"type": "shell",
+		"script": "scripts/install_mysql.sh",
+		"execute_command": "sudo {{.Path}}"
+	  }
+	]
+  }
+  

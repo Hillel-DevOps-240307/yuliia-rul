@@ -1,0 +1,39 @@
+{
+	"variables": {
+	  "region": "",
+	  "base_ami": "",
+	  "instance_size": ""
+	},
+	"builders": [
+	  {
+		"type": "amazon-ebs",
+		"region": "{{user `region`}}",
+		"source_ami": "{{user `base_ami`}}",
+		"instance_type": "{{user `instance_size`}}",
+		"ami_name": "app-ami-{{timestamp}}",
+		"ssh_username": "ubuntu",
+		"ssh_timeout": "20m",
+		"tags": {
+		  "Project": "Devops",
+		  "ami_type": "app",
+		  "OS": "ubuntu_2204",
+		  "BuiltBy": "Packer"
+		}
+	  }
+	],
+	"provisioners": [
+	  {
+		"type": "shell",
+		"inline": [
+		  "sudo apt-get update",
+		  "sudo apt-get install -y python3-pip"
+		]
+	  },
+	  {
+		"type": "shell",
+		"script": "scripts/install_app_packages.sh",
+		"execute_command": "sudo {{.Path}}"
+	  }
+	]
+  }
+  
